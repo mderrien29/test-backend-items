@@ -13,7 +13,7 @@ export const postCategories =
       req.body,
       Category.decode,
       TE.fromEither,
-      TE.mapLeft(() => errors.BAD_REQUEST),
+      TE.mapLeft((e) => errors.BAD_REQUEST(e.toString())),
       TE.chainW(createCategory),
       TE.fold(saneErrorMapper(res), staticSuccessMapper(200)(res))
     )();

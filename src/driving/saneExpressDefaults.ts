@@ -5,12 +5,16 @@ import { match } from "ts-pattern";
 export const saneErrorMapper =
   (res: Response) => (error: TechErr | BusinessErr<any>) => async () =>
     match(error)
-      .with(errors.BAD_REQUEST, () => res.status(400))
-      .with(errors.UNAUTHORIZED, () => res.status(401))
-      .with(errors.FORBIDDEN, () => res.status(403))
-      .with(errors.NOT_FOUND, () => res.status(404))
-      .with(errors.CONFLICT, () => res.status(409))
-      .otherwise(() => res.status(500));
+      .with({ _tag: "BusinessErr", code: "BAD_REQUEST" }, ({ message }) =>
+        res.status(400).send({ error: message })
+      )
+      .with({ _tag: "BusinessErr", code: "NOT_FOUND" }, ({ message }) =>
+        res.status(404).send({ error: message })
+      )
+      .with({ _tag: "BusinessErr", code: "CONFLICT" }, ({ message }) =>
+        res.status(409).send({ error: message })
+      )
+      .otherwise(() => res.status(500).send({ error: "server error" }));
 
 export const staticSuccessMapper =
   (code: number) =>
