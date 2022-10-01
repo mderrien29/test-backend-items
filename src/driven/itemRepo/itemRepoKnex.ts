@@ -73,17 +73,12 @@ export const itemRepoKnex = (db: Knex, table: string): ItemRepo => ({
       )
     ),
 
-  getIdsFilterBy: (maybeFilter) =>
+  getIdsFilterBy: (filters) =>
     fp.pipe(
-      maybeFilter
-        ? TE.tryCatch(
-            () => db.table(table).select("id").where(maybeFilter),
-            () => errTech
-          )
-        : TE.tryCatch(
-            () => db.table(table).select(),
-            () => errTech
-          ),
+      TE.tryCatch(
+        () => db.table(table).select("id").where(filters),
+        () => errTech
+      ),
       TE.chain(
         TE.traverseArray(
           fp.flow(

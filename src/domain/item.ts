@@ -21,15 +21,9 @@ export const Item = t.type({
 });
 export type Item = t.TypeOf<typeof Item>;
 
-export const Filter = t.union([
-  t.type({
-    category_id: Item.props.category_id,
-  }),
-  t.type({
-    sale_id: Item.props.sale_id,
-  }),
-  t.type({
-    auction_type: Item.props.auction_type,
-  }),
-]);
+export const Filter = t.partial({
+  category_id: Item.props.category_id,
+  sale_id: Item.props.sale_id,
+  auction_type: Item.props.auction_type,
+});
 export type Filter = t.TypeOf<typeof Filter>;

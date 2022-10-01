@@ -1,5 +1,4 @@
-import { function as fp, taskEither as TE, task as T } from "fp-ts";
-import * as t from "io-ts";
+import { function as fp, taskEither as TE } from "fp-ts";
 
 import { Handler } from "express";
 import {
@@ -17,8 +16,7 @@ export const listItems =
     fp.pipe(
       req.query,
       validate(Filter.decode),
-      TE.getOrElse<any, Filter | null>(fp.flow(fp.constNull, T.of)),
-      T.chain(listItems),
+      TE.chainW(listItems),
       TE.fold(saneErrorMapper(res), staticSuccessMapper(200)(res))
     )();
 

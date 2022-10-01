@@ -11,7 +11,7 @@ export type ListItemFactory = (
   getFullItem: GetItemPure
 ) => ListItemPure;
 export type ListItemPure = (
-  filter: Filter | null
+  filter: Filter
 ) => TE.TaskEither<TechErr, FullItemList>;
 type FullItemList = Array<Item & { category: Category } & { sale: Sale }>;
 
