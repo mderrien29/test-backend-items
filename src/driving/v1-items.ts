@@ -2,6 +2,7 @@ import { function as fp, taskEither as TE } from "fp-ts";
 
 import { Handler } from "express";
 import {
+  contentRangeMapper,
   saneErrorMapper,
   staticSuccessMapper,
   validate,
@@ -9,6 +10,15 @@ import {
 import { CreateItemPure } from "../usecase/createItem";
 import { Filter, Item } from "../domain/item";
 import { ListItemPure } from "../usecase/listItems";
+import { CountItemPure } from "src/usecase/countItems";
+
+export const headItems =
+  (countItem: CountItemPure): Handler =>
+  (_, res) =>
+    fp.pipe(
+      countItem(),
+      TE.fold(saneErrorMapper(res), contentRangeMapper("items")(res))
+    )();
 
 export const listItems =
   (listItems: ListItemPure): Handler =>

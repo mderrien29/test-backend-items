@@ -23,7 +23,7 @@ export const saneErrorMapper =
       .with({ _tag: "BusinessErr", code: "NOT_FOUND" }, () =>
         res.status(404).send()
       )
-      .with({ _tag: "BusinessErr", code: "CONFLICT" }, ({ message }) =>
+      .with({ _tag: "BusinessErr", code: "CONFLICT" }, () =>
         res.status(409).send()
       )
       .otherwise(() => res.status(500).send({ error: "server error" }));
@@ -34,3 +34,11 @@ export const staticSuccessMapper =
   <T>(result: T) =>
   async () =>
     res.status(code).send(result);
+
+export const contentRangeMapper =
+  (resource: string) => (res: Response) => (result: number) => async () =>
+    res
+      .set("Access-Control-Expose-Headers", "Content-Range")
+      .set("Content-Range", `${resource} */${result}`)
+      .status(200)
+      .send();
