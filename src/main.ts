@@ -24,7 +24,12 @@ const itemRepo = itemRepoKnex(pg, config.table_item);
 // Usecase
 const createCategory = createCategoryFactory(categoryRepo.insert);
 const createSale = createSaleFactory(saleRepo.insert);
-const createItem = createItemFactory(itemRepo.insert, itemRepo.getById);
+const createItem = createItemFactory(
+  itemRepo.insert,
+  itemRepo.getById,
+  categoryRepo.getById,
+  saleRepo.getById
+);
 
 // HTTP
 const app = express();
