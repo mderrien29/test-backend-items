@@ -8,6 +8,15 @@ import {
 } from "./saneExpressDefaults";
 import { CreateItemPure } from "../usecase/createItem";
 import { Item } from "../domain/item";
+import { ListItemPure } from "../usecase/listItems";
+
+export const listItems =
+  (listItems: ListItemPure): Handler =>
+  (_, res) =>
+    fp.pipe(
+      listItems(),
+      TE.fold(saneErrorMapper(res), staticSuccessMapper(200)(res))
+    )();
 
 export const postItems =
   (createItem: CreateItemPure): Handler =>

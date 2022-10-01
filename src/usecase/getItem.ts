@@ -14,8 +14,8 @@ export type GetItemFactory = (
 ) => GetItemPure;
 export type GetItemPure = (
   id: Item["id"]
-) => TE.TaskEither<TechErr | BusinessErr<"NOT_FOUND">, Out>;
-type Out = Item & { category: Category } & { sale: Sale };
+) => TE.TaskEither<TechErr | BusinessErr<"NOT_FOUND">, FullItem>;
+type FullItem = Item & { category: Category } & { sale: Sale };
 
 export const getItemFactory: GetItemFactory = (
   getById,

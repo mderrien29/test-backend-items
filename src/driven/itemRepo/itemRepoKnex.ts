@@ -72,23 +72,41 @@ export const itemRepoKnex = (db: Knex, table: string): ItemRepo => ({
       )
     ),
 
-  filterBy: (key) => (value) =>
+  getIds: () =>
     fp.pipe(
-      fp.pipe(
-        TE.tryCatch(
-          () => db.table(table).select().where(key, value),
-          () => errTech
-        ),
-        TE.chain(
-          TE.traverseArray(
-            fp.flow(
-              rowToItem,
-              E.mapLeft(() => errTech),
-              TE.fromEither
-            )
+      TE.tryCatch(
+        () => db.table(table).select("id"),
+        () => errTech
+      ),
+      TE.chain(
+        TE.traverseArray(
+          fp.flow(
+            ({ id }) => id,
+            Item.props.id.decode,
+            E.mapLeft(() => errTech),
+            TE.fromEither
           )
-        ),
-        TE.map(RA.toArray)
-      )
+        )
+      ),
+      TE.map(RA.toArray)
+    ),
+
+  getIdsFilterBy: (key) => (value) =>
+    fp.pipe(
+      TE.tryCatch(
+        () => db.table(table).select().where(key, value),
+        () => errTech
+      ),
+      TE.chain(
+        TE.traverseArray(
+          fp.flow(
+            ({ id }) => id,
+            Item.props.id.decode,
+            E.mapLeft(() => errTech),
+            TE.fromEither
+          )
+        )
+      ),
+      TE.map(RA.toArray)
     ),
 });
