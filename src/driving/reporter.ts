@@ -5,9 +5,12 @@ import { ValidationError } from "io-ts";
 export const getMessage = (e: ValidationError[]): string => {
   const contextLength = e[0].context.length;
 
-  const faultyKey = e[0].context[contextLength - 1].key;
-  const expectedType = e[0].context[contextLength - 1].type.name;
-  const actualValue = e[0].context[contextLength - 1].actual;
+  const idOfErrorToShow = contextLength === 1 ? 0 : 1;
+  const errorToShow = e[0].context[idOfErrorToShow];
+
+  const faultyKey = errorToShow.key;
+  const expectedType = errorToShow.type.name;
+  const actualValue = errorToShow.actual;
 
   const isUndefined = actualValue === undefined;
   return isUndefined
