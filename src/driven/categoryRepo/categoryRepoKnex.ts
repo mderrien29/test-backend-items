@@ -9,7 +9,7 @@ import { Knex } from 'knex';
 import { Category } from '../../domain/category';
 import { errTech } from '../../domain/error';
 import { CategoryRepo } from '../../usecase/_adapters/categoryRepo';
-import { catchInsertErrors } from '../knex-utils';
+import { catchInsertErrors } from '../knexUtils';
 
 export const categoryRepoKnex = (db: Knex, table: string): CategoryRepo => ({
   insert: (category) =>

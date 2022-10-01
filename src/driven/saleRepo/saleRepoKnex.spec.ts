@@ -5,15 +5,15 @@ import {
   StartedPostgreSqlContainer,
 } from 'testcontainers';
 
-import { getCategory } from '../../../test/fixtures';
+import { getSale } from '../../../test/fixtures';
 import { errors } from '../../domain/error';
-import { CategoryRepo } from '../../usecase/_adapters/categoryRepo';
-import { categoryRepoKnex } from './categoryRepoKnex';
+import { SaleRepo } from '../../usecase/_adapters/saleRepo';
+import { saleRepoKnex } from './saleRepoKnex';
 
-describe('CategoryRepoKnex', () => {
+describe('SaleRepoKnex', () => {
   let container: StartedPostgreSqlContainer;
   let db: Knex;
-  let repo: CategoryRepo;
+  let repo: SaleRepo;
 
   beforeAll(async () => {
     container = await new PostgreSqlContainer('postgres:14-alpine').start();
@@ -29,46 +29,46 @@ describe('CategoryRepoKnex', () => {
       extension: 'ts',
     });
 
-    repo = categoryRepoKnex(db, 'category');
+    repo = saleRepoKnex(db, 'sale');
   });
 
-  beforeEach(() => db.table('category').delete());
+  beforeEach(() => db.table('sale').delete());
 
   afterAll(async () => {
     await db.destroy();
     await container.stop();
   });
 
-  it('inserts a new category', async () => {
+  it('inserts a new sale', async () => {
     // G
-    const category = getCategory();
+    const sale = getSale();
 
     // W
-    await repo.insert(category)();
-    const result = await repo.getById(category.id)();
+    await repo.insert(sale)();
+    const result = await repo.getById(sale.id)();
 
     // T
-    expect(result).toStrictEqual(E.right(O.some(category)));
+    expect(result).toStrictEqual(E.right(O.some(sale)));
   });
 
-  it('fails with CONFLICT when category already exist', async () => {
+  it('fails with CONFLICT when sale already exist', async () => {
     // G
-    const category = getCategory();
+    const sale = getSale();
 
     // W
-    await repo.insert(category)();
-    const result = await repo.insert(category)();
+    await repo.insert(sale)();
+    const result = await repo.insert(sale)();
 
     // T
     expect(result).toStrictEqual(E.left(errors.CONFLICT('')));
   });
 
-  it('returns O.none when category does not exist', async () => {
+  it('returns O.none when sale does not exist', async () => {
     // G
-    const category = getCategory();
+    const sale = getSale();
 
     // W
-    const result = await repo.getById(category.id)();
+    const result = await repo.getById(sale.id)();
 
     // T
     expect(result).toStrictEqual(E.right(O.none));

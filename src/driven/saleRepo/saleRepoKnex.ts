@@ -9,7 +9,7 @@ import { Knex } from 'knex';
 import { errTech } from '../../domain/error';
 import { Sale } from '../../domain/sale';
 import { SaleRepo } from '../../usecase/_adapters/saleRepo';
-import { catchInsertErrors } from '../knex-utils';
+import { catchInsertErrors } from '../knexUtils';
 
 export const saleRepoKnex = (db: Knex, table: string): SaleRepo => ({
   insert: (sale) =>

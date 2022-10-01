@@ -10,8 +10,7 @@
     "format": "prettier --write 'src/**/*.ts'",
     "start": "node main.js",
     "build": "tsc",
-    "docker-dev": "docker-compose up --build",
-    "docker-down": "docker-compose down --volumes",
+    "docker-dev": "docker-compose down --volumes && docker-compose up --build",
     "dev": "ts-node src/main.ts",
     "migration": "knex --knexfile ./knexfile.ts migrate:latest"
   },

@@ -10,7 +10,7 @@ import { Knex } from 'knex';
 import { errTech } from '../../domain/error';
 import { Item } from '../../domain/item';
 import { ItemRepo } from '../../usecase/_adapters/itemRepo';
-import { catchInsertErrors } from '../knex-utils';
+import { catchInsertErrors } from '../knexUtils';
 
 const itemToRow = (i: Item) =>
   fp.pipe({
