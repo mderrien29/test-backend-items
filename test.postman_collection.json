@@ -1,0 +1,801 @@
+{
+	"info": {
+		"_postman_id": "c62ffac6-9195-47cc-b430-c32691db6e48",
+		"name": "Test Back",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "status | 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedStatusCode = 200",
+							"pm.test(`Status code should be ${expectedStatusCode}`, function () {",
+							"  pm.response.to.have.status(expectedStatusCode);",
+							"});",
+							"",
+							"pm.test(\"response should have a json body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"const responseJson = pm.response.json();",
+							"",
+							"pm.test(\"response should have a property status with value 'OK'\", function() {",
+							"    pm.expect(responseJson).to.haveOwnProperty(\"status\")",
+							"    pm.expect(responseJson.status).to.be.equal(\"OK\")",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3021/v1/status",
+					"host": [
+						"localhost"
+					],
+					"port": "3021",
+					"path": [
+						"v1",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Categories | create 1 | 201",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedStatusCode = 201",
+							"pm.test(`Status code should be ${expectedStatusCode}`, function () {",
+							"  pm.response.to.have.status(expectedStatusCode);",
+							"});",
+							"",
+							"pm.test(\"response should have a json body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"const responseJson = pm.response.json();",
+							"",
+							"pm.test(\"response should have all posted properties\", function() {",
+							"    const properties = [",
+							"        \"id\",",
+							"        \"name\",",
+							"        \"summary\"",
+							"    ]",
+							"    for (const prop of properties) {",
+							"        pm.expect(responseJson).to.haveOwnProperty(prop)",
+							"    }    ",
+							"})",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"name\": \"Vente de mobilier courant\",\n    \"summary\": \"Chineur invétéré ou novice, les ventes courantes vous offrent une variété de lots à des prix accessibles.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3021/v1/categories",
+					"host": [
+						"localhost"
+					],
+					"port": "3021",
+					"path": [
+						"v1",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sales | create 1 | 201",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedStatusCode = 201",
+							"pm.test(`Status code should be ${expectedStatusCode}`, function () {",
+							"  pm.response.to.have.status(expectedStatusCode);",
+							"});",
+							"",
+							"pm.test(\"response should have a json body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"const responseJson = pm.response.json();",
+							"",
+							"pm.test(\"response should have all posted properties\", function() {",
+							"    const properties = [",
+							"        \"id\",",
+							"        \"name\"",
+							"    ]",
+							"    for (const prop of properties) {",
+							"        pm.expect(responseJson).to.haveOwnProperty(prop)",
+							"    }    ",
+							"})",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"name\": \"BROCANTE - VENTE UNIQUEMENT EN LIVE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3021/v1/sales",
+					"host": [
+						"localhost"
+					],
+					"port": "3021",
+					"path": [
+						"v1",
+						"sales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sales | create 2 | 201",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedStatusCode = 201",
+							"pm.test(`Status code should be ${expectedStatusCode}`, function () {",
+							"  pm.response.to.have.status(expectedStatusCode);",
+							"});",
+							"",
+							"pm.test(\"response should have a json body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"const responseJson = pm.response.json();",
+							"",
+							"pm.test(\"response should have all posted properties\", function() {",
+							"    const properties = [",
+							"        \"id\",",
+							"        \"name\"",
+							"    ]",
+							"    for (const prop of properties) {",
+							"        pm.expect(responseJson).to.haveOwnProperty(prop)",
+							"    }    ",
+							"})",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 2,\n    \"name\": \"VENTE EN LIGNE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3021/v1/sales",
+					"host": [
+						"localhost"
+					],
+					"port": "3021",
+					"path": [
+						"v1",
+						"sales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "items | create 1 | 201",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedStatusCode = 201",
+							"pm.test(`Status code should be ${expectedStatusCode}`, function () {",
+							"  pm.response.to.have.status(expectedStatusCode);",
+							"});",
+							"",
+							"pm.test(\"response should have a json body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"const responseJson = pm.response.json();",
+							"const IsoRegex = /\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d:[0-5]\\d|Z)/",
+							"",
+							"pm.test(\"response should have all posted properties\", function() {",
+							"    const properties = [",
+							"        \"id\",",
+							"        \"category\",",
+							"        \"sale\",",
+							"        \"description\",",
+							"        \"auction_type\",",
+							"        \"pricing\"",
+							"    ]",
+							"    for (const prop of properties) {",
+							"        pm.expect(responseJson).to.haveOwnProperty(prop)",
+							"    }    ",
+							"})",
+							"",
+							"pm.test(\"response should have a last_updated field (ISO date)\", function() {",
+							"    pm.expect(responseJson).to.haveOwnProperty(\"last_updated\")",
+							"    pm.expect(responseJson.last_updated).to.match(IsoRegex)",
+							"})",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"category_id\": 1,\n    \"sale_id\": 1,\n    \"description\": \"Affiche \\\"Automobilia\\\" le nouveau record du monde de l'heure , \\r\\nCastrol sur voiture Bugatti\",\n    \"auction_type\": \"live\",\n    \"pricing\": {\n        \"estimates\": {\n            \"max\": 500,\n            \"min\": 300,\n            \"currency\": \"euro\"\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3021/v1/items",
+					"host": [
+						"localhost"
+					],
+					"port": "3021",
+					"path": [
+						"v1",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "items | create 2 | 201",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedStatusCode = 201",
+							"pm.test(`Status code should be ${expectedStatusCode}`, function () {",
+							"  pm.response.to.have.status(expectedStatusCode);",
+							"});",
+							"",
+							"pm.test(\"response should have a json body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"const responseJson = pm.response.json();",
+							"const IsoRegex = /\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d:[0-5]\\d|Z)/",
+							"",
+							"pm.test(\"response should have all posted properties\", function() {",
+							"    const properties = [",
+							"        \"id\",",
+							"        \"category\",",
+							"        \"sale\",",
+							"        \"description\",",
+							"        \"auction_type\",",
+							"        \"pricing\"",
+							"    ]",
+							"    for (const prop of properties) {",
+							"        pm.expect(responseJson).to.haveOwnProperty(prop)",
+							"    }",
+							"})",
+							"",
+							"pm.test(\"response should have a last_updated field (ISO date)\", function() {",
+							"    pm.expect(responseJson).to.haveOwnProperty(\"last_updated\")",
+							"    pm.expect(responseJson.last_updated).to.match(IsoRegex)",
+							"})",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 2,\n    \"category_id\": 1,\n    \"sale_id\": 2,\n    \"description\": \"Modèles réduits de voitures (jouets anciens)\",\n    \"auction_type\": \"online\",\n    \"pricing\": {\n        \"estimates\": {\n            \"max\": 60,\n            \"min\": 40,\n            \"currency\": \"euro\"\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3021/v1/items",
+					"host": [
+						"localhost"
+					],
+					"port": "3021",
+					"path": [
+						"v1",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "items | missing auction_type | 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedStatusCode = 400",
+							"pm.test(`Status code should be ${expectedStatusCode}`, function () {",
+							"  pm.response.to.have.status(expectedStatusCode);",
+							"});",
+							"",
+							"pm.test(\"response should have a json body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"const responseJson = pm.response.json();",
+							"",
+							"pm.test(\"response should have an error field\", function() {",
+							"    pm.expect(responseJson).to.haveOwnProperty(\"error\")",
+							"    pm.expect(responseJson.error).to.equal(\"ValidationError: missing property auction_type\")",
+							"})",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 99,\n    \"category_id\": 1,\n    \"sale_id\": 1,\n    \"description\": \"Affiche \\\"Automobilia\\\" le nouveau record du monde de l'heure , \\r\\nCastrol sur voiture Bugatti\",\n    \"pricing\": {\n        \"estimates\": {\n            \"max\": 500,\n            \"min\": 300,\n            \"currency\": \"euro\"\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3021/v1/items",
+					"host": [
+						"localhost"
+					],
+					"port": "3021",
+					"path": [
+						"v1",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "items | bad format | 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedStatusCode = 400",
+							"pm.test(`Status code should be ${expectedStatusCode}`, function () {",
+							"  pm.response.to.have.status(expectedStatusCode);",
+							"});",
+							"",
+							"pm.test(\"response should have a json body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"const responseJson = pm.response.json();",
+							"",
+							"pm.test(\"response should have an error field\", function() {",
+							"    pm.expect(responseJson).to.haveOwnProperty(\"error\")",
+							"    pm.expect(responseJson.error).to.equal(\"ValidationError: id should be numerical, got 'badly-formatted-id' instead\")",
+							"})",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"badly-formatted-id\",\n    \"category_id\": 1,\n    \"sale_id\": 1,\n    \"description\": \"Affiche \\\"Automobilia\\\" le nouveau record du monde de l'heure , \\r\\nCastrol sur voiture Bugatti\",\n    \"auction_type\": \"live\",\n    \"pricing\": {\n        \"estimates\": {\n            \"max\": 500,\n            \"min\": 300,\n            \"currency\": \"euro\"\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3021/v1/items",
+					"host": [
+						"localhost"
+					],
+					"port": "3021",
+					"path": [
+						"v1",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "items | already exist | 409",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedStatusCode = 409",
+							"pm.test(`Status code should be ${expectedStatusCode}`, function () {",
+							"  pm.response.to.have.status(expectedStatusCode);",
+							"});",
+							"",
+							"pm.test(\"response should be empty\", function () {",
+							"    pm.expect(pm.response.size().body).to.be.equal(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"category_id\": 1,\n    \"sale_id\": 1,\n    \"description\": \"Affiche \\\"Automobilia\\\" le nouveau record du monde de l'heure , \\r\\nCastrol sur voiture Bugatti\",\n    \"auction_type\": \"live\",\n    \"pricing\": {\n        \"estimates\": {\n            \"max\": 500,\n            \"min\": 300,\n            \"currency\": \"euro\"\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3021/v1/items",
+					"host": [
+						"localhost"
+					],
+					"port": "3021",
+					"path": [
+						"v1",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "items | get list | 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedStatusCode = 200",
+							"pm.test(`Status code should be ${expectedStatusCode}`, function () {",
+							"  pm.response.to.have.status(expectedStatusCode);",
+							"});",
+							"",
+							"pm.test(\"response should have a json body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"const responseJson = pm.response.json();",
+							"",
+							"pm.test(\"response should be an array with length 1\", function () {",
+							"     pm.expect(responseJson).to.be.an(\"array\").with.length(2);",
+							"});",
+							"",
+							"pm.test(\"response should have all posted properties\", function() {",
+							"    const properties = [",
+							"        \"id\",",
+							"        \"category\",",
+							"        \"sale\",",
+							"        \"description\",",
+							"        \"auction_type\",",
+							"        \"pricing\",",
+							"        \"last_updated\"",
+							"    ]",
+							"    for (const prop of properties) {",
+							"        pm.expect(responseJson[0]).to.haveOwnProperty(prop)",
+							"    }    ",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3021/v1/items",
+					"host": [
+						"localhost"
+					],
+					"port": "3021",
+					"path": [
+						"v1",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "items | filter by auction_type | 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedStatusCode = 200",
+							"pm.test(`Status code should be ${expectedStatusCode}`, function () {",
+							"  pm.response.to.have.status(expectedStatusCode);",
+							"});",
+							"",
+							"pm.test(\"response should have a json body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"const responseJson = pm.response.json();",
+							"",
+							"pm.test(\"response should be a non-empty array\", function() {",
+							"    pm.expect(responseJson).to.be.an(\"array\");",
+							"    pm.expect(responseJson.length).to.be.greaterThan(0);",
+							"})",
+							"",
+							"pm.test(\"response should contains live items only\", function () {     ",
+							"     const filteredResponse = responseJson.filter(item => item.auction_type === \"live\")",
+							"     pm.expect(filteredResponse.length).to.equal(responseJson.length)",
+							"});",
+							"",
+							"pm.test(\"response should have all posted properties\", function() {",
+							"    const properties = [",
+							"        \"id\",",
+							"        \"category\",",
+							"        \"sale\",",
+							"        \"description\",",
+							"        \"auction_type\",",
+							"        \"pricing\",",
+							"        \"last_updated\"",
+							"    ]",
+							"    for (const prop of properties) {",
+							"        pm.expect(responseJson[0]).to.haveOwnProperty(prop)",
+							"    }    ",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3021/v1/items?auction_type=live",
+					"host": [
+						"localhost"
+					],
+					"port": "3021",
+					"path": [
+						"v1",
+						"items"
+					],
+					"query": [
+						{
+							"key": "auction_type",
+							"value": "live"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "items | get by id | 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedStatusCode = 200",
+							"pm.test(`Status code should be ${expectedStatusCode}`, function () {",
+							"  pm.response.to.have.status(expectedStatusCode);",
+							"});",
+							"",
+							"pm.test(\"response should have a json body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"const responseJson = pm.response.json();",
+							"",
+							"pm.test(\"response should have all posted properties\", function() {",
+							"    const properties = [",
+							"        \"id\",",
+							"        \"category\",",
+							"        \"sale\",",
+							"        \"description\",",
+							"        \"auction_type\",",
+							"        \"pricing\",",
+							"        \"last_updated\"",
+							"    ]",
+							"    for (const prop of properties) {",
+							"        pm.expect(responseJson).to.haveOwnProperty(prop)",
+							"    }    ",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3021/v1/items/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3021",
+					"path": [
+						"v1",
+						"items",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "items | get by id | 404",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedStatusCode = 404",
+							"pm.test(`Status code should be ${expectedStatusCode}`, function () {",
+							"  pm.response.to.have.status(expectedStatusCode);",
+							"});",
+							"",
+							"pm.test(\"response should be empty\", function () {",
+							"    pm.expect(pm.response.size().body).to.be.equal(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3021/v1/items/689",
+					"host": [
+						"localhost"
+					],
+					"port": "3021",
+					"path": [
+						"v1",
+						"items",
+						"689"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "items | Content-Range | 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedStatusCode = 200",
+							"pm.test(`Status code should be ${expectedStatusCode}`, function () {",
+							"  pm.response.to.have.status(expectedStatusCode);",
+							"});",
+							"",
+							"pm.test(\"response should have a content-range header\", function () {",
+							"     const header = pm.response.headers.get('Content-Range')",
+							"     pm.expect(header).to.equal(\"items */2\")",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "HEAD",
+				"header": [],
+				"url": {
+					"raw": "localhost:3021/v1/items",
+					"host": [
+						"localhost"
+					],
+					"port": "3021",
+					"path": [
+						"v1",
+						"items"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
