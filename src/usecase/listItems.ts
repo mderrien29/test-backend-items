@@ -1,4 +1,5 @@
 import { function as fp, taskEither as TE, readonlyArray as RA } from 'fp-ts';
+import * as t from 'io-ts';
 
 import { Category } from '../domain/category';
 import { errTech, TechErr } from '../domain/error';

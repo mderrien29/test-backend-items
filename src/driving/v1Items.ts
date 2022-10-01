@@ -2,23 +2,14 @@ import { Handler } from 'express';
 import { function as fp, taskEither as TE } from 'fp-ts';
 
 import { Filter, Item } from '../domain/item';
-import { CountItemPure } from '../usecase/countItems';
 import { CreateItemPure } from '../usecase/createItem';
 import { ListItemPure } from '../usecase/listItems';
 import {
-  contentRangeMapper,
   saneErrorMapper,
+  staticSuccessMapperWithContentRange,
   staticSuccessMapper,
   validate,
 } from './saneExpressDefaults';
-
-export const headItems =
-  (countItem: CountItemPure): Handler =>
-  (_, res) =>
-    fp.pipe(
-      countItem(),
-      TE.fold(saneErrorMapper(res), contentRangeMapper('items')(res)),
-    )();
 
 export const listItems =
   (listItems: ListItemPure): Handler =>
@@ -27,7 +18,10 @@ export const listItems =
       req.query,
       validate(Filter.decode),
       TE.chainW(listItems),
-      TE.fold(saneErrorMapper(res), staticSuccessMapper(200)(res)),
+      TE.fold(
+        saneErrorMapper(res),
+        staticSuccessMapperWithContentRange(200, 'items')(res),
+      ),
     )();
 
 export const postItems =

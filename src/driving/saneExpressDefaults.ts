@@ -36,10 +36,13 @@ export const staticSuccessMapper =
   async () =>
     res.status(code).send(result);
 
-export const contentRangeMapper =
-  (resource: string) => (res: Response) => (result: number) => async () =>
+export const staticSuccessMapperWithContentRange =
+  (code: number, unit: string) =>
+  (res: Response) =>
+  <T extends Array<any>>(result: T) =>
+  async () =>
     res
       .set('Access-Control-Expose-Headers', 'Content-Range')
-      .set('Content-Range', `${resource} */${result}`)
-      .status(200)
-      .send();
+      .set('Content-Range', `${unit} */${result.length}`)
+      .status(code)
+      .send(result);

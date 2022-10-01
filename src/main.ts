@@ -5,13 +5,12 @@ import { categoryRepoKnex } from './driven/categoryRepo/categoryRepoKnex';
 import { itemRepoKnex } from './driven/itemRepo/itemRepoKnex';
 import { saleRepoKnex } from './driven/saleRepo/saleRepoKnex';
 import { postCategories } from './driving/v1Categories';
-import { postItems, listItems, headItems } from './driving/v1Items';
+import { postItems, listItems } from './driving/v1Items';
 import { getItems } from './driving/v1ItemsId';
 import { postSales } from './driving/v1Sales';
 import { getStatus } from './driving/v1Status';
 import { getConfig } from './infra/config';
 import { getPostgresqlAdapter } from './infra/postgres';
-import { countItemFactory } from './usecase/countItems';
 import { createCategoryFactory } from './usecase/createCategory';
 import { createItemFactory } from './usecase/createItem';
 import { createSaleFactory } from './usecase/createSale';
@@ -37,7 +36,6 @@ const getItem = getItemFactory(
 );
 const createItem = createItemFactory(itemRepo.insert, getItem);
 const listItem = listItemFactory(itemRepo.getIdsFilterBy, getItem);
-const countItem = countItemFactory(itemRepo.getIdsFilterBy);
 
 // HTTP
 const app = express();
@@ -47,7 +45,6 @@ app.use(cors());
 app.get('/v1/status', getStatus);
 app.post('/v1/categories', postCategories(createCategory));
 app.post('/v1/sales', postSales(createSale));
-app.head('/v1/items', headItems(countItem));
 app.get('/v1/items', listItems(listItem));
 app.post('/v1/items', postItems(createItem));
 app.get('/v1/items/:itemId', getItems(getItem));
