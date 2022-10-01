@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { date } from "io-ts-types";
 
 import { Category } from "./category";
 import { Sale } from "./sale";
@@ -16,5 +17,6 @@ export const Item = t.type({
       currency: t.literal("euro"), // should use ISO-4217 instead
     }),
   }),
+  last_updated: t.union([date, t.undefined]),
 });
 export type Item = t.TypeOf<typeof Item>;
