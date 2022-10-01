@@ -1,7 +1,7 @@
 import { function as fp, taskEither as TE } from "fp-ts";
-import { BusinessErr, TechErr } from "src/domain/error";
+import { BusinessErr, TechErr } from "../domain/error";
 import { ItemRepo } from "./_adapters/itemRepo";
-import { Item } from "src/domain/item";
+import { Item } from "../domain/item";
 
 export type CreateItemFactory = (insert: ItemRepo["insert"]) => CreateItemPure;
 export type CreateItemPure = (

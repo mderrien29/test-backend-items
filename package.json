@@ -7,7 +7,10 @@
     "test": "echo no",
     "start": "node main.js",
     "build": "tsc",
-    "dev": "ts-node src/main.ts"
+    "dev": "ts-node src/main.ts",
+    "docker-dev": "docker-compose up --build",
+    "docker-down": "docker-compose down --volumes",
+    "migration": "knex --knexfile ./knexfile.ts migrate:latest"
   },
   "author": "",
   "license": "ISC",

@@ -1,6 +1,6 @@
 import { function as fp, taskEither as TE } from "fp-ts";
-import { Category } from "src/domain/category";
-import { BusinessErr, TechErr } from "src/domain/error";
+import { Category } from "../domain/category";
+import { BusinessErr, TechErr } from "../domain/error";
 import { CategoryRepo } from "./_adapters/categoryRepo";
 
 export type CreateCategoryFactory = (
@@ -8,7 +8,7 @@ export type CreateCategoryFactory = (
 ) => CreateCategoryPure;
 export type CreateCategoryPure = (
   category: Category
-) => TE.TaskEither<TechErr | BusinessErr<"CONFLICT">, void>;
+) => TE.TaskEither<TechErr | BusinessErr<"CONFLICT">, Category>;
 
 export const createCategoryFactory: CreateCategoryFactory = (insert) =>
-  fp.flow(insert);
+  fp.flow(TE.of, TE.chainFirst(insert));

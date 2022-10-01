@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { BusinessErr, errors, TechErr } from "src/domain/error";
+import { BusinessErr, errors, TechErr } from "../domain/error";
 import { match } from "ts-pattern";
 
 export const saneErrorMapper =

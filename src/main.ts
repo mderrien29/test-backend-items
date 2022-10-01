@@ -17,6 +17,7 @@ const createCategory = createCategoryFactory(categoryRepo.insert);
 
 // HTTP
 const app = express();
+app.use(express.json());
 app.get("/v1/status", (_, res) => res.status(200).send({ status: "OK" }));
 app.post("/v1/categories", postCategories(createCategory));
 

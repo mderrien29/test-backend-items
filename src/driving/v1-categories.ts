@@ -1,9 +1,10 @@
 import { function as fp, taskEither as TE } from "fp-ts";
+import { failure } from "io-ts/lib/PathReporter";
 
-import { Category } from "src/domain/category";
+import { Category } from "../domain/category";
 import { Handler } from "express";
-import { CreateCategoryPure } from "src/usecase/createCategory";
-import { errors } from "src/domain/error";
+import { CreateCategoryPure } from "../usecase/createCategory";
+import { errors } from "../domain/error";
 import { saneErrorMapper, staticSuccessMapper } from "./saneExpressDefaults";
 
 export const postCategories =
@@ -13,7 +14,7 @@ export const postCategories =
       req.body,
       Category.decode,
       TE.fromEither,
-      TE.mapLeft((e) => errors.BAD_REQUEST(e.toString())),
+      TE.mapLeft((e) => errors.BAD_REQUEST(failure(e).toString())),
       TE.chainW(createCategory),
-      TE.fold(saneErrorMapper(res), staticSuccessMapper(200)(res))
+      TE.fold(saneErrorMapper(res), staticSuccessMapper(201)(res))
     )();

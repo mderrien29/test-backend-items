@@ -5,7 +5,7 @@ const config = getConfig();
 
 export const up = async (db: Knex) =>
   db.schema.createTable(config.table_category, (t) => {
-    t.integer("id");
+    t.integer("id").primary();
     t.string("name");
     t.string("summary");
   });

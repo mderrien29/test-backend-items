@@ -1,6 +1,6 @@
 import { taskEither as TE } from "fp-ts";
-import { Category } from "src/domain/category";
-import { TechErr, BusinessErr } from "src/domain/error";
+import { Category } from "../../domain/category";
+import { TechErr, BusinessErr } from "../../domain/error";
 
 export type CategoryRepo = {
   insert: (
