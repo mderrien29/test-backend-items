@@ -10,6 +10,7 @@ import { postSales } from "./driving/v1-sales";
 import { itemRepoKnex } from "./driven/itemRepo/itemRepoKnex";
 import { createItemFactory } from "./usecase/createItem";
 import { postItems } from "./driving/v1-items";
+import { getStatus } from "./driving/v1-status";
 
 // Infra
 const config = getConfig();
@@ -28,7 +29,7 @@ const createItem = createItemFactory(itemRepo.insert, itemRepo.getById);
 // HTTP
 const app = express();
 app.use(express.json());
-app.get("/v1/status", (_, res) => res.status(200).send({ status: "OK" }));
+app.get("/v1/status", getStatus);
 app.post("/v1/categories", postCategories(createCategory));
 app.post("/v1/sales", postSales(createSale));
 app.post("/v1/items", postItems(createItem));

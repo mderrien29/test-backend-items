@@ -1,6 +1,18 @@
+import { taskEither as TE, function as fp } from "fp-ts";
 import { Response } from "express";
 import { BusinessErr, errors, TechErr } from "../domain/error";
 import { match } from "ts-pattern";
+import { Validation } from "io-ts";
+import { getMessage } from "./reporter";
+
+export const validate = <A>(
+  decode: (v: unknown) => Validation<A>
+): ((v: unknown) => TE.TaskEither<BusinessErr<"BAD_REQUEST">, A>) =>
+  fp.flow(
+    decode,
+    TE.fromEither,
+    TE.mapLeft((e) => errors.BAD_REQUEST(getMessage(e)))
+  );
 
 export const saneErrorMapper =
   (res: Response) => (error: TechErr | BusinessErr<any>) => async () =>
