@@ -1,20 +1,20 @@
-import * as t from "io-ts";
-import { date } from "io-ts-types";
+import * as t from 'io-ts';
+import { date } from 'io-ts-types';
 
-import { Category } from "./category";
-import { Sale } from "./sale";
+import { Category } from './category';
+import { Sale } from './sale';
 
 export const Item = t.type({
   id: t.Int,
   category_id: Category.props.id,
   sale_id: Sale.props.id,
   description: t.string,
-  auction_type: t.union([t.literal("live"), t.literal("online")]),
+  auction_type: t.union([t.literal('live'), t.literal('online')]),
   pricing: t.type({
     estimates: t.type({
       max: t.Int,
       min: t.Int,
-      currency: t.literal("euro"), // should use ISO-4217 instead
+      currency: t.literal('euro'), // should use ISO-4217 instead
     }),
   }),
   last_updated: t.union([date, t.undefined]),

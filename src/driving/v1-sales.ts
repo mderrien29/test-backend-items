@@ -1,13 +1,13 @@
-import { function as fp, taskEither as TE } from "fp-ts";
+import { Handler } from 'express';
+import { function as fp, taskEither as TE } from 'fp-ts';
 
-import { Handler } from "express";
+import { Sale } from '../domain/sale';
+import { CreateSalePure } from '../usecase/createSale';
 import {
   saneErrorMapper,
   staticSuccessMapper,
   validate,
-} from "./saneExpressDefaults";
-import { CreateSalePure } from "../usecase/createSale";
-import { Sale } from "../domain/sale";
+} from './saneExpressDefaults';
 
 export const postSales =
   (createSale: CreateSalePure): Handler =>
@@ -16,5 +16,5 @@ export const postSales =
       req.body,
       validate(Sale.decode),
       TE.chainW(createSale),
-      TE.fold(saneErrorMapper(res), staticSuccessMapper(201)(res))
+      TE.fold(saneErrorMapper(res), staticSuccessMapper(201)(res)),
     )();

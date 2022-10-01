@@ -1,21 +1,22 @@
-import express from "express";
-import { categoryRepoKnex } from "./driven/categoryRepo/categoryRepoKnex";
-import { postCategories } from "./driving/v1-categories";
-import { getConfig } from "./infra/config";
-import { getPostgresqlAdapter } from "./infra/postgres";
-import { createCategoryFactory } from "./usecase/createCategory";
-import { createSaleFactory } from "./usecase/createSale";
-import { saleRepoKnex } from "./driven/saleRepo/saleRepoKnex";
-import { postSales } from "./driving/v1-sales";
-import { itemRepoKnex } from "./driven/itemRepo/itemRepoKnex";
-import { createItemFactory } from "./usecase/createItem";
-import { postItems, listItems, headItems } from "./driving/v1-items";
-import { getStatus } from "./driving/v1-status";
-import { getItemFactory } from "./usecase/getItem";
-import { getItems } from "./driving/v1-items-id";
-import { listItemFactory } from "./usecase/listItems";
-import { countItemFactory } from "./usecase/countItems";
-import cors from "cors";
+import cors from 'cors';
+import express from 'express';
+
+import { categoryRepoKnex } from './driven/categoryRepo/categoryRepoKnex';
+import { itemRepoKnex } from './driven/itemRepo/itemRepoKnex';
+import { saleRepoKnex } from './driven/saleRepo/saleRepoKnex';
+import { postCategories } from './driving/v1-categories';
+import { postItems, listItems, headItems } from './driving/v1-items';
+import { getItems } from './driving/v1-items-id';
+import { postSales } from './driving/v1-sales';
+import { getStatus } from './driving/v1-status';
+import { getConfig } from './infra/config';
+import { getPostgresqlAdapter } from './infra/postgres';
+import { countItemFactory } from './usecase/countItems';
+import { createCategoryFactory } from './usecase/createCategory';
+import { createItemFactory } from './usecase/createItem';
+import { createSaleFactory } from './usecase/createSale';
+import { getItemFactory } from './usecase/getItem';
+import { listItemFactory } from './usecase/listItems';
 
 // Infra
 const config = getConfig();
@@ -32,7 +33,7 @@ const createSale = createSaleFactory(saleRepo.insert);
 const getItem = getItemFactory(
   itemRepo.getById,
   categoryRepo.getById,
-  saleRepo.getById
+  saleRepo.getById,
 );
 const createItem = createItemFactory(itemRepo.insert, getItem);
 const listItem = listItemFactory(itemRepo.getIdsFilterBy, getItem);
@@ -43,12 +44,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/v1/status", getStatus);
-app.post("/v1/categories", postCategories(createCategory));
-app.post("/v1/sales", postSales(createSale));
-app.head("/v1/items", headItems(countItem));
-app.get("/v1/items", listItems(listItem));
-app.post("/v1/items", postItems(createItem));
-app.get("/v1/items/:itemId", getItems(getItem));
+app.get('/v1/status', getStatus);
+app.post('/v1/categories', postCategories(createCategory));
+app.post('/v1/sales', postSales(createSale));
+app.head('/v1/items', headItems(countItem));
+app.get('/v1/items', listItems(listItem));
+app.post('/v1/items', postItems(createItem));
+app.get('/v1/items/:itemId', getItems(getItem));
 
 app.listen(config.port);

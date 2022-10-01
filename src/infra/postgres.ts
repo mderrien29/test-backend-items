@@ -1,8 +1,8 @@
-import { knex, Knex } from "knex";
+import { knex, Knex } from 'knex';
 
 export const getPostgresqlAdapter = (connection: string): Knex =>
   knex({
-    client: "pg",
+    client: 'pg',
     connection: connection,
-    searchPath: ["public"],
+    searchPath: ['public'],
   });

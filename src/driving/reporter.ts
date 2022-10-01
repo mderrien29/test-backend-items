@@ -1,4 +1,4 @@
-import { ValidationError } from "io-ts";
+import { ValidationError } from 'io-ts';
 
 // I have to say, exepecting exact error messages without imposing the use of a framework, or any form of specification for the error message is not good.
 // Dirty implementation of a Reporter until proper specs
@@ -16,8 +16,8 @@ export const getMessage = (e: ValidationError[]): string => {
   return isUndefined
     ? `ValidationError: missing property ${faultyKey}`
     : `ValidationError: ${faultyKey} should be ${someWeirdTypeMapping(
-        expectedType
+        expectedType,
       )}, got '${actualValue}' instead`;
 };
 
-const someWeirdTypeMapping = (t: string) => (t === "Int" ? "numerical" : t);
+const someWeirdTypeMapping = (t: string) => (t === 'Int' ? 'numerical' : t);

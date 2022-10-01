@@ -1,23 +1,23 @@
-import { function as fp, taskEither as TE } from "fp-ts";
+import { Handler } from 'express';
+import { function as fp, taskEither as TE } from 'fp-ts';
 
-import { Handler } from "express";
+import { Filter, Item } from '../domain/item';
+import { CountItemPure } from '../usecase/countItems';
+import { CreateItemPure } from '../usecase/createItem';
+import { ListItemPure } from '../usecase/listItems';
 import {
   contentRangeMapper,
   saneErrorMapper,
   staticSuccessMapper,
   validate,
-} from "./saneExpressDefaults";
-import { CreateItemPure } from "../usecase/createItem";
-import { Filter, Item } from "../domain/item";
-import { ListItemPure } from "../usecase/listItems";
-import { CountItemPure } from "src/usecase/countItems";
+} from './saneExpressDefaults';
 
 export const headItems =
   (countItem: CountItemPure): Handler =>
   (_, res) =>
     fp.pipe(
       countItem(),
-      TE.fold(saneErrorMapper(res), contentRangeMapper("items")(res))
+      TE.fold(saneErrorMapper(res), contentRangeMapper('items')(res)),
     )();
 
 export const listItems =
@@ -27,7 +27,7 @@ export const listItems =
       req.query,
       validate(Filter.decode),
       TE.chainW(listItems),
-      TE.fold(saneErrorMapper(res), staticSuccessMapper(200)(res))
+      TE.fold(saneErrorMapper(res), staticSuccessMapper(200)(res)),
     )();
 
 export const postItems =
@@ -37,5 +37,5 @@ export const postItems =
       req.body,
       validate(Item.decode),
       TE.chainW(createItem),
-      TE.fold(saneErrorMapper(res), staticSuccessMapper(201)(res))
+      TE.fold(saneErrorMapper(res), staticSuccessMapper(201)(res)),
     )();

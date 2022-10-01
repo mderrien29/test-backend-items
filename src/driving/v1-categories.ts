@@ -1,13 +1,13 @@
-import { function as fp, taskEither as TE } from "fp-ts";
+import { Handler } from 'express';
+import { function as fp, taskEither as TE } from 'fp-ts';
 
-import { Category } from "../domain/category";
-import { Handler } from "express";
-import { CreateCategoryPure } from "../usecase/createCategory";
+import { Category } from '../domain/category';
+import { CreateCategoryPure } from '../usecase/createCategory';
 import {
   saneErrorMapper,
   staticSuccessMapper,
   validate,
-} from "./saneExpressDefaults";
+} from './saneExpressDefaults';
 
 export const postCategories =
   (createCategory: CreateCategoryPure): Handler =>
@@ -16,5 +16,5 @@ export const postCategories =
       req.body,
       validate(Category.decode),
       TE.chainW(createCategory),
-      TE.fold(saneErrorMapper(res), staticSuccessMapper(201)(res))
+      TE.fold(saneErrorMapper(res), staticSuccessMapper(201)(res)),
     )();

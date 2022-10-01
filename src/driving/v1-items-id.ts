@@ -1,13 +1,13 @@
-import { function as fp, taskEither as TE } from "fp-ts";
+import { Handler } from 'express';
+import { function as fp, taskEither as TE } from 'fp-ts';
 
-import { Handler } from "express";
+import { Item } from '../domain/item';
+import { GetItemPure } from '../usecase/getItem';
 import {
   saneErrorMapper,
   staticSuccessMapper,
   validate,
-} from "./saneExpressDefaults";
-import { Item } from "../domain/item";
-import { GetItemPure } from "../usecase/getItem";
+} from './saneExpressDefaults';
 
 export const getItems =
   (getItem: GetItemPure): Handler =>
@@ -17,5 +17,5 @@ export const getItems =
       Number,
       validate(Item.props.id.decode),
       TE.chainW(getItem),
-      TE.fold(saneErrorMapper(res), staticSuccessMapper(200)(res))
+      TE.fold(saneErrorMapper(res), staticSuccessMapper(200)(res)),
     )();

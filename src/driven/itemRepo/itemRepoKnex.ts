@@ -4,13 +4,13 @@ import {
   option as O,
   either as E,
   readonlyArray as RA,
-  boolean as B,
-} from "fp-ts";
-import { Knex } from "knex";
-import { Item } from "../../domain/item";
-import { errTech } from "../../domain/error";
-import { ItemRepo } from "../../usecase/_adapters/itemRepo";
-import { catchInsertErrors } from "../knex-utils";
+} from 'fp-ts';
+import { Knex } from 'knex';
+
+import { errTech } from '../../domain/error';
+import { Item } from '../../domain/item';
+import { ItemRepo } from '../../usecase/_adapters/itemRepo';
+import { catchInsertErrors } from '../knex-utils';
 
 const itemToRow = (i: Item) =>
   fp.pipe({
@@ -41,7 +41,7 @@ const rowToItem = (r: any) =>
       },
       last_updated: r.updated_at,
     },
-    Item.decode
+    Item.decode,
   );
 
 export const itemRepoKnex = (db: Knex, table: string): ItemRepo => ({
@@ -49,14 +49,14 @@ export const itemRepoKnex = (db: Knex, table: string): ItemRepo => ({
     fp.pipe(
       itemToRow(item),
       TE.tryCatchK((row) => db.table(table).insert(row), catchInsertErrors),
-      TE.map(fp.constVoid)
+      TE.map(fp.constVoid),
     ),
 
   getById: (i) =>
     fp.pipe(
       TE.tryCatch(
-        () => db.table(table).select().where("id", i).first(),
-        () => errTech
+        () => db.table(table).select().where('id', i).first(),
+        () => errTech,
       ),
       TE.chainEitherK(
         fp.flow(
@@ -66,18 +66,18 @@ export const itemRepoKnex = (db: Knex, table: string): ItemRepo => ({
             () => E.right(O.none),
             E.match(
               () => E.left(errTech),
-              (item) => E.right(O.some(item))
-            )
-          )
-        )
-      )
+              (item) => E.right(O.some(item)),
+            ),
+          ),
+        ),
+      ),
     ),
 
   getIdsFilterBy: (filters) =>
     fp.pipe(
       TE.tryCatch(
-        () => db.table(table).select("id").where(filters),
-        () => errTech
+        () => db.table(table).select('id').where(filters),
+        () => errTech,
       ),
       TE.chain(
         TE.traverseArray(
@@ -85,10 +85,10 @@ export const itemRepoKnex = (db: Knex, table: string): ItemRepo => ({
             ({ id }) => id,
             Item.props.id.decode,
             E.mapLeft(() => errTech),
-            TE.fromEither
-          )
-        )
+            TE.fromEither,
+          ),
+        ),
       ),
-      TE.map(RA.toArray)
+      TE.map(RA.toArray),
     ),
 });
