@@ -26,7 +26,7 @@ export const up = async (db: Knex) => {
   await db.raw(addUpdatedAtFunction);
 
   await db.schema.createTable(config.table_item, (t) => {
-    t.integer("id");
+    t.integer("id").primary();
     t.integer("category_id").references("id").inTable(config.table_category);
     t.integer("sale_id").references("id").inTable(config.table_sale);
     t.string("description");

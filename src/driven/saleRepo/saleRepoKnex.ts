@@ -8,14 +8,12 @@ import { Knex } from "knex";
 import { Sale } from "../../domain/sale";
 import { errTech } from "../../domain/error";
 import { SaleRepo } from "../../usecase/_adapters/saleRepo";
+import { catchInsertErrors } from "../knex-utils";
 
 export const saleRepoKnex = (db: Knex, table: string): SaleRepo => ({
   insert: (sale) =>
     fp.pipe(
-      TE.tryCatch(
-        () => db.table(table).insert(sale),
-        () => errTech
-      ),
+      TE.tryCatch(() => db.table(table).insert(sale), catchInsertErrors),
       TE.map(fp.constVoid)
     ),
   getById: (i) =>

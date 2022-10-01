@@ -9,6 +9,7 @@ import { Knex } from "knex";
 import { Item } from "../../domain/item";
 import { errTech } from "../../domain/error";
 import { ItemRepo } from "../../usecase/_adapters/itemRepo";
+import { catchInsertErrors } from "../knex-utils";
 
 const itemToRow = (i: Item) =>
   fp.pipe({
@@ -46,10 +47,7 @@ export const itemRepoKnex = (db: Knex, table: string): ItemRepo => ({
   insert: (item) =>
     fp.pipe(
       itemToRow(item),
-      TE.tryCatchK(
-        (row) => db.table(table).insert(row),
-        () => errTech
-      ),
+      TE.tryCatchK((row) => db.table(table).insert(row), catchInsertErrors),
       TE.map(fp.constVoid)
     ),
 

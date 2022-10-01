@@ -4,38 +4,25 @@ import { ItemRepo } from "./_adapters/itemRepo";
 import { Item } from "../domain/item";
 import { Category } from "../domain/category";
 import { Sale } from "../domain/sale";
-import { CategoryRepo } from "./_adapters/categoryRepo";
-import { SaleRepo } from "./_adapters/saleRepo";
+import { GetItemPure } from "./getItem";
 
 export type CreateItemFactory = (
   insert: ItemRepo["insert"],
-  getById: ItemRepo["getById"],
-  getCategoryById: CategoryRepo["getById"],
-  getSaleById: SaleRepo["getById"]
+  getFullItem: GetItemPure
 ) => CreateItemPure;
 export type CreateItemPure = (
   item: Item
 ) => TE.TaskEither<TechErr | BusinessErr<"CONFLICT">, Out>;
 type Out = Item & { category: Category } & { sale: Sale };
 
-export const createItemFactory: CreateItemFactory = (
-  insert,
-  getById,
-  getCategoryById,
-  getSaleById
-) =>
+export const createItemFactory: CreateItemFactory = (insert, getFullItem) =>
   fp.flow(
     TE.of,
     TE.chainFirst(insert),
-    TE.chainW((item) => getById(item.id)),
-    TE.chainW(TE.fromOption(() => errTech)),
-    TE.bindW("category", (i) =>
+    TE.chainW((item) =>
       fp.pipe(
-        getCategoryById(i.category_id),
-        TE.chain(TE.fromOption(() => errTech))
+        getFullItem(item.id),
+        TE.mapLeft(() => errTech)
       )
-    ),
-    TE.bindW("sale", (i) =>
-      fp.pipe(getSaleById(i.sale_id), TE.chain(TE.fromOption(() => errTech)))
     )
   );

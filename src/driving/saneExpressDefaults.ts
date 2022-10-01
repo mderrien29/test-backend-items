@@ -20,11 +20,11 @@ export const saneErrorMapper =
       .with({ _tag: "BusinessErr", code: "BAD_REQUEST" }, ({ message }) =>
         res.status(400).send({ error: message })
       )
-      .with({ _tag: "BusinessErr", code: "NOT_FOUND" }, ({ message }) =>
-        res.status(404).send({ error: message })
+      .with({ _tag: "BusinessErr", code: "NOT_FOUND" }, () =>
+        res.status(404).send()
       )
       .with({ _tag: "BusinessErr", code: "CONFLICT" }, ({ message }) =>
-        res.status(409).send({ error: message })
+        res.status(409).send()
       )
       .otherwise(() => res.status(500).send({ error: "server error" }));
 

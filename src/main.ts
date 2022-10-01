@@ -11,6 +11,8 @@ import { itemRepoKnex } from "./driven/itemRepo/itemRepoKnex";
 import { createItemFactory } from "./usecase/createItem";
 import { postItems } from "./driving/v1-items";
 import { getStatus } from "./driving/v1-status";
+import { getItemFactory } from "./usecase/getItem";
+import { getItems } from "./driving/v1-items-id";
 
 // Infra
 const config = getConfig();
@@ -24,12 +26,12 @@ const itemRepo = itemRepoKnex(pg, config.table_item);
 // Usecase
 const createCategory = createCategoryFactory(categoryRepo.insert);
 const createSale = createSaleFactory(saleRepo.insert);
-const createItem = createItemFactory(
-  itemRepo.insert,
+const getItem = getItemFactory(
   itemRepo.getById,
   categoryRepo.getById,
   saleRepo.getById
 );
+const createItem = createItemFactory(itemRepo.insert, getItem);
 
 // HTTP
 const app = express();
@@ -38,5 +40,6 @@ app.get("/v1/status", getStatus);
 app.post("/v1/categories", postCategories(createCategory));
 app.post("/v1/sales", postSales(createSale));
 app.post("/v1/items", postItems(createItem));
+app.get("/v1/items/:itemId", getItems(getItem));
 
 app.listen(config.port);

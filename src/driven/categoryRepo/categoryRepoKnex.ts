@@ -8,14 +8,12 @@ import { Knex } from "knex";
 import { errTech } from "../../domain/error";
 import { CategoryRepo } from "../../usecase/_adapters/categoryRepo";
 import { Category } from "../../domain/category";
+import { catchInsertErrors } from "../knex-utils";
 
 export const categoryRepoKnex = (db: Knex, table: string): CategoryRepo => ({
   insert: (category) =>
     fp.pipe(
-      TE.tryCatch(
-        () => db.table(table).insert(category),
-        () => errTech
-      ),
+      TE.tryCatch(() => db.table(table).insert(category), catchInsertErrors),
       TE.map(fp.constVoid)
     ),
   getById: (i) =>
