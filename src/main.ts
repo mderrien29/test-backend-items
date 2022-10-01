@@ -33,7 +33,7 @@ const getItem = getItemFactory(
   saleRepo.getById
 );
 const createItem = createItemFactory(itemRepo.insert, getItem);
-const listItem = listItemFactory(itemRepo.getIds, getItem);
+const listItem = listItemFactory(itemRepo.getIdsFilterBy, getItem);
 
 // HTTP
 const app = express();

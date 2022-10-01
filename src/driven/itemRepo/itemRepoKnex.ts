@@ -4,6 +4,7 @@ import {
   option as O,
   either as E,
   readonlyArray as RA,
+  boolean as B,
 } from "fp-ts";
 import { Knex } from "knex";
 import { Item } from "../../domain/item";
@@ -72,31 +73,17 @@ export const itemRepoKnex = (db: Knex, table: string): ItemRepo => ({
       )
     ),
 
-  getIds: () =>
+  getIdsFilterBy: (maybeFilter) =>
     fp.pipe(
-      TE.tryCatch(
-        () => db.table(table).select("id"),
-        () => errTech
-      ),
-      TE.chain(
-        TE.traverseArray(
-          fp.flow(
-            ({ id }) => id,
-            Item.props.id.decode,
-            E.mapLeft(() => errTech),
-            TE.fromEither
+      maybeFilter
+        ? TE.tryCatch(
+            () => db.table(table).select("id").where(maybeFilter),
+            () => errTech
           )
-        )
-      ),
-      TE.map(RA.toArray)
-    ),
-
-  getIdsFilterBy: (key) => (value) =>
-    fp.pipe(
-      TE.tryCatch(
-        () => db.table(table).select().where(key, value),
-        () => errTech
-      ),
+        : TE.tryCatch(
+            () => db.table(table).select(),
+            () => errTech
+          ),
       TE.chain(
         TE.traverseArray(
           fp.flow(

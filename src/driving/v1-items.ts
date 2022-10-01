@@ -1,4 +1,5 @@
-import { function as fp, taskEither as TE } from "fp-ts";
+import { function as fp, taskEither as TE, task as T } from "fp-ts";
+import * as t from "io-ts";
 
 import { Handler } from "express";
 import {
@@ -7,14 +8,17 @@ import {
   validate,
 } from "./saneExpressDefaults";
 import { CreateItemPure } from "../usecase/createItem";
-import { Item } from "../domain/item";
+import { Filter, Item } from "../domain/item";
 import { ListItemPure } from "../usecase/listItems";
 
 export const listItems =
   (listItems: ListItemPure): Handler =>
-  (_, res) =>
+  (req, res) =>
     fp.pipe(
-      listItems(),
+      req.query,
+      validate(Filter.decode),
+      TE.getOrElse<any, Filter | null>(fp.flow(fp.constNull, T.of)),
+      T.chain(listItems),
       TE.fold(saneErrorMapper(res), staticSuccessMapper(200)(res))
     )();
 
